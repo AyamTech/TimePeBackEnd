@@ -1,0 +1,31 @@
+{
+  "_id": "65a12fabcde1234567890001",
+  "userId": "65a12fabcde1234567899999",
+
+  "orderNumber": "TP/2026/1001",
+
+  "customer": {
+    "name": "Vikram Singh",
+    "accountNumber": "TP-ACC-99821",
+    "phone": "+91-98765 43210"
+  },
+
+  "appointment": {
+    "doctorName": "Dr. Anjali Gupta",
+    "doctorId": "DOC-AG-7721",
+    "doctorPhone": "+91-99887 76655",
+    "slot": "12-Jan-2026 | 04:30 PM"
+  },
+
+  "amount": 10.0,
+  "total": 10.0,
+
+  "bookedAt": "2026-01-12T10:45:22.000Z",
+  "signedAt": "2026-01-06T09:57:33.000Z",
+
+  "status": "FINAL",
+
+  "download": {
+    "count": 0
+  }
+}

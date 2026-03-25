@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TimePe Booking Receipt</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #000;
+      margin: 0;
+      padding: 40px;
+      background: #fff;
+    }
+
+    /* Top Header Section */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid #000;
+      padding-bottom: 5px;
+      margin-bottom: 25px;
+    }
+    .header h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+    .header .title {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Address Information */
+    .info-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    .info-box {
+      width: 48%;
+    }
+    .info-box strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    /* Grey Metadata Box */
+    .order-meta {
+      background-color: #f2f2f2;
+      padding: 10px 15px;
+      margin-bottom: 25px;
+    }
+    .order-meta div {
+      margin-bottom: 2px;
+    }
+
+    /* Table Styles */
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .receipt-table thead th {
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      padding: 10px;
+      font-weight: bold;
+    }
+    .receipt-table thead th.right {
+      text-align: right;
+    }
+    .receipt-table td {
+      padding: 15px 10px;
+      vertical-align: top;
+    }
+    .receipt-table td.right {
+      text-align: right;
+      font-weight: bold;
+    }
+    .item-title {
+      font-weight: bold;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .appt-details {
+      margin-left: 10px;
+      font-size: 12px;
+      color: #333;
+    }
+
+    /* Total Section */
+    .total-wrapper {
+      float: right;
+      width: 40%;
+      border-top: 1px solid #ccc;
+      margin-top: 20px;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    /* Digital Signature Box */
+    .signature-container {
+      clear: both;
+      margin-top: 40px;
+      border: 1px dashed #777;
+      border-radius: 5px;
+      width: 320px;
+      padding: 15px;
+    }
+    .signature-container .label {
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .sig-content {
+      color: #0033cc;
+    }
+    .sig-content .status {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .sig-content .sub-text {
+      font-size: 11px;
+    }
+
+    /* Footer Disclaimer */
+    .disclaimer {
+      margin-top: 80px;
+      font-size: 11px;
+      color: #999;
+    }
+    .disclaimer strong {
+      color: #333;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .disclaimer ol {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .disclaimer li {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>TimePe</h1> <div class="title">BOOKING RECEIPT</div> </div>
+
+  <div class="info-container">
+    <div class="info-box">
+      <strong>ISSUED BY:</strong> Ayam Tech India Pvt. Ltd.<br> B174, Vivek Vihar, Delhi-110095, INDIA<br> Email: info@gotimepe.com<br>
+      Website: www.gotimepe.com
+    </div>
+    <div class="info-box">
+      <strong>BILLED TO:</strong> {{customerName}}<br>
+      <strong>Account No: {{accountNumber}}</strong><br> Phone: +91-{{customerPhone}}
+    </div>
+  </div>
+
+  <div class="order-meta">
+    <div><strong>Order NO: {{orderNumber}}</strong></div> <div><strong>BOOKED AT: {{bookedAt}}</strong></div> </div>
+
+  <table class="receipt-table">
+    <thead>
+      <tr>
+        <th>Description</th> <th class="right">Amount (INR)</th> </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="item-title">Booking / Convenience Fee</span> <div class="appt-details">
+            <strong>Appointment Details:</strong><br> Doctor: {{doctorName}} ({{doctorId}})<br>
+            Slot: {{appointmentSlot}}<br>
+            Doctor Contact: {{doctorPhone}}
+          </div>
+        </td>
+        <td class="right">{{amount}}</td> </tr>
+    </tbody>
+  </table>
+
+  <div class="total-wrapper">
+    <span>Total Paid:</span> <span>INR {{totalPaid}}</span> </div>
+
+  <div class="signature-container">
+    <span class="label">Authorized Signatory</span> <div class="sig-content">
+      <div class="status">DIGITALLY SIGNED</div> <div class="sub-text">Date: {{signedAt}}</div> <div class="sub-text">TimePe Verification System</div> </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Disclaimer & Terms of Service:</strong> <ol>
+      <li>Service Scope: TimePe is a booking facilitator. Medical services are provided by the Doctor.</li> <li>Smart Scheduling: Slots are optimized estimates based on historical data.</li> <li>Live Tracking: Please track live clinic status on the TimePe app.</li> <li>Refunds: Convenience fees are non-refundable. Subject to Delhi jurisdiction.</li> <li>Support: Email info@gotimepe.com or visit www.gotimepe.com.</li> </ol>
+  </div>
+
+</body>
+</html>

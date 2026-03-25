@@ -1,0 +1,164 @@
+// const mongoose = require('mongoose');
+// const { MongoMemoryServer } = require('mongodb-memory-server');
+// const DoctorSchedule = require('../models/doctorSchedule');
+// const { regenerateDailySlots } = require('../utils/regenerate.slots');
+
+// let mongoServer;
+
+// beforeAll(async () => {
+//   mongoServer = await MongoMemoryServer.create();
+//   const uri = mongoServer.getUri();
+//   await mongoose.connect(uri);
+// });
+
+// afterAll(async () => {
+//   await mongoose.disconnect();
+//   await mongoServer.stop();
+// });
+
+// afterEach(async () => {
+//   await DoctorSchedule.deleteMany({});
+// });
+
+
+// test('Generates only morning slots on Wednesday', async () => {
+//   // Wednesday = 3
+//   jest.spyOn(Date.prototype, 'getDay').mockReturnValue(3);
+
+//   await DoctorSchedule.create({
+//     doctorId: new mongoose.Types.ObjectId(),
+//     status: 'Active',
+//     appointmentDuration: '30 Minutes',
+//     neverEnds: true,
+//     morningSession: {
+//       enabled: true,
+//       start: '09:00 AM',
+//       end: '12:00 PM',
+//       selectedDays: [false, false, false, true, false, false, false]
+//     },
+//     eveningSession: {
+//       enabled: true,
+//       start: '05:00 PM',
+//       end: '07:00 PM',
+//       selectedDays: [false, false, false, false, false, false, false]
+//     }
+//   });
+
+//   await regenerateDailySlots();
+
+//   const schedule = await DoctorSchedule.findOne();
+//   const sessions = schedule.dailySlots.map(s => s.session);
+
+//   expect(sessions.every(s => s === 'morning')).toBe(true);
+// });
+
+
+// test('Generates morning and evening slots on Thursday', async () => {
+//   // Thursday = 4
+//   jest.spyOn(Date.prototype, 'getDay').mockReturnValue(4);
+
+//   await DoctorSchedule.create({
+//     doctorId: new mongoose.Types.ObjectId(),
+//     status: 'Active',
+//     appointmentDuration: '15 Minutes',
+//     neverEnds: true,
+//     morningSession: {
+//       enabled: true,
+//       start: '09:00 AM',
+//       end: '11:00 AM',
+//       selectedDays: [false, false, false, false, true, false, false]
+//     },
+//     eveningSession: {
+//       enabled: true,
+//       start: '05:00 PM',
+//       end: '06:00 PM',
+//       selectedDays: [false, false, false, false, true, false, false]
+//     }
+//   });
+
+//   await regenerateDailySlots();
+
+//   const schedule = await DoctorSchedule.findOne();
+//   const sessions = new Set(schedule.dailySlots.map(s => s.session));
+
+//   expect(sessions.has('morning')).toBe(true);
+//   expect(sessions.has('evening')).toBe(true);
+// });
+
+// test('Generates no slots if doctor unavailable today', async () => {
+//   // Sunday = 0
+//   jest.spyOn(Date.prototype, 'getDay').mockReturnValue(0);
+
+//   await DoctorSchedule.create({
+//     doctorId: new mongoose.Types.ObjectId(),
+//     status: 'Active',
+//     appointmentDuration: '30 Minutes',
+//     neverEnds: true,
+//     morningSession: {
+//       enabled: true,
+//       start: '09:00 AM',
+//       end: '11:00 AM',
+//       selectedDays: [false, true, false, false, false, false, false]
+//     },
+//     eveningSession: {
+//       enabled: true,
+//       start: '05:00 PM',
+//       end: '06:00 PM',
+//       selectedDays: [false, true, false, false, false, false, false]
+//     }
+//   });
+
+//   await regenerateDailySlots();
+
+//   const schedule = await DoctorSchedule.findOne();
+//   expect(schedule.dailySlots.length).toBe(0);
+// });
+
+// test('Does not generate slots for expired schedule', async () => {
+//   jest.spyOn(Date.prototype, 'getDay').mockReturnValue(2);
+
+//   await DoctorSchedule.create({
+//     doctorId: new mongoose.Types.ObjectId(),
+//     status: 'Active',
+//     appointmentDuration: '15 Minutes',
+//     neverEnds: false,
+//     endDate: new Date('2020-01-01'),
+//     morningSession: {
+//       enabled: true,
+//       start: '09:00 AM',
+//       end: '10:00 AM',
+//       selectedDays: [false, false, true, false, false, false, false]
+//     },
+//     eveningSession: {
+//       enabled: false,
+//       selectedDays: []
+//     }
+//   });
+
+//   await regenerateDailySlots();
+
+//   const schedule = await DoctorSchedule.findOne();
+//   expect(schedule.dailySlots.length).toBe(0);
+// });
+
+// test('Does not generate slots for inactive schedule', async () => {
+//   jest.spyOn(Date.prototype, 'getDay').mockReturnValue(1);
+
+//   await DoctorSchedule.create({
+//     doctorId: new mongoose.Types.ObjectId(),
+//     status: 'Inactive',
+//     appointmentDuration: '15 Minutes',
+//     neverEnds: true,
+//     morningSession: {
+//       enabled: true,
+//       start: '09:00 AM',
+//       end: '10:00 AM',
+//       selectedDays: [false, true, false, false, false, false, false]
+//     }
+//   });
+
+//   await regenerateDailySlots();
+
+//   const schedule = await DoctorSchedule.findOne();
+//   expect(schedule.dailySlots.length).toBe(0);
+// });
